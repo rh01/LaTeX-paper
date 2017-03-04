@@ -1,0 +1,110 @@
+\documentclass[UTF8,a4paper,cs4size]{ctexart}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{xcolor,graphicx}
+\usepackage{tikz}
+\usepackage{epigraph}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\setCJKmainfont{SimSun} %设置songti
+\setCJKmonofont{SimHei} %设置文泉驿等宽正黑字体作为中文打字机字体
+
+% 设定页边距
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{ geometry}
+% 加载 ams 数学公式与数学字体宏包
+\usepackage{amsmath, amsfonts}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue]{hyperref}
+\usepackage{svg}
+%设置首行缩进
+\usepackage{indentfirst}
+\setlength{\parindent}{2em }
+\setlength{\parskip}{0pt }
+%段前段后距离设置
+\CTEXsetup[beforeskip=2ex]{paragraph}
+%页眉和页脚
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\pagenumbering{Roman}
+%\documentclass[letterpaper]{article}%
+
+
+
+
+\renewcommand{\headrulewidth}{0pt}
+
+\begin{document}
+\CTEXsetup[format={\zihao{3}\heiti\centering}]{section}
+\CTEXsetup[format={\zihao{4}\heiti}]{subsection}
+
+%设置中文摘要
+
+\section*{Auto-Driven Based on CNN}
+\begin{center}
+\textit{Shen Hengheng \hspace{10mm} Li Zhongze}
+\end{center}
+\noindent 产品描述：基于机器学习、计算机视觉、数字图像处理等技术的人工智能产品“自动驾驶小车（改装遥控车）”，该项目由申恒恒(CS)和李中泽（ME）合作开发，指导老师为闫怀平老师。
+
+\noindent 关键技术：Python + OpenCV 神经网络 + Haar 级联分类器
+\subsection*{目标}
+在车道上自动驾驶，停止(STOP)标志和交通红绿灯的检测与识别，自动检测前方障碍物（比如前方小车），并控制(车速或保持车距)避免与其碰撞或追尾.
+\subsection*{系统的设计}
+该系统由三个子系统所组成，其中包括输入单元 (相头,超声波传感器)、 处理单元 (计算机) 和 小车的控制单元。
+\subsubsection*{输入单元}
+树莓派板(型号 B +),附有一个 pi 相机模块，和一个用来收集输入数据的 HC SR04 超声波传感器。树莓派运行两个客户端程序，一个是用来传输视频流，另外一个是通过本地Wi-Fi连接（这里使用树莓派做无线路由）将超声波传感器的数据传输到计算机。为了实现低延迟的视频流。在这里视频缩小为QVGA(320×240)分辨率。
+\subsubsection*{处理单元}
+处理单元 (计算机) 处理多个任务：接收来自树莓派的数据、训练神经网络和预测(转向的方向),目标检测 (停止标志和交通红绿灯),距离测量 (单目视觉技术),并将指令发送到Arduino，Arduino通过 USB 与计算机连接 。
+\subsubsection*{\textit{TCP Server}}
+运行在计算机端的多线程TCP服务器，负责接受来自树莓派的视频流图像帧和超声波传感器数据，其中每一图像帧被转化为灰度图像并存储在numpy数组里。
+\subsubsection*{\textit{Neural Network}}
+使用神经网络的优点是，一旦神经网络训练完毕，它只需要加载之后训练完成后的参数，所以它的预测是非常快的。只有小部分的输入图像被用于训练和预测。在输入层有38,400(320 × 120)个节点，隐含层有 32 个节点。在隐含层节点的数目是选择是随意选择的。在输出层有四个节点，每个节点对应于小车转向的控制指令，左,右,正向和反向分别 (虽然在此项目中,反向不在任何地方使用,但它还包括在输出层)。
+
+下面显示训练数据收集过程。首先每个帧被裁剪并转换为一个 numpy 数组。然后训练图像被标记相应的label (人工标记)。最后,所有标记完成的图像数据和相应标签都保存到npz文件中。在 OpenCV 中使用反向传播算法训练神经网络。训练完成后,生成的神经网络节点的权重被保存为xml文件。若要对新的图像数据生成预测,直接加载xml文件构建与训练数据生成的神经网络相同的网络结构，也可以这么说，训练后的模型被保存在xml文件（级联文件）中，若要预测，直接加载该文件即可。
+\subsubsection*{\textit{Object Detection}}
+这个项目采用了基于形状检测的方法,并且使用基于特征的 Haar 级联分类器，主要用于目标检测。由于每个目标对象需要其自己的分类器,并在训练过程中和检测过程中是相同,所以这个项目只集中于停止（STOP）标志和交通红绿灯的检测。
+
+OpenCV 提供了训练器以及特征探测器。(包含目标对象) 的正样本图像主要使用了安卓手机拍摄了一些图像，并将图像裁剪，使得正样本中只有目标图像可见。负样本图像 (没有目标对象)随机图像。比如,交通红绿灯正样本包含相同数量的红色交通灯和绿色交通灯。同样的，负样本数据集使用了用于停止的标志和黄色交通灯来进行训练。下面显示了在该项目中使用一些正样本和负样本图像。
+
+为了识别不同的状态的交通红绿灯（红，绿），所以在检测后需要进行必要的图像处理。下面的流程图总结了交通灯识别的过程。
+
+首先,利用训练完成的级联分类器用来检测交通红绿灯的状态。边框被认为是感兴趣区 (ROI)。其次,将高斯模糊（高斯低通滤波器）应用在ROI中，用来减少图像噪音。第三,在ROI在找到最亮的点。最后,通过基于ROI中最亮的点的位置就可以确定交通红绿灯的状态（红，绿）。
+\subsubsection*{\textit{Distance Measurement}}
+由于树莓派只能支持一个 pi 摄像头模块。另外在计算机视觉领域往往会通过双目视觉技术来测量距离，但是使用两个 USB 网络摄像头会为小车带来额外的重量,所以不符合实际应用。因此,在这里选择树莓派摄像头模块并且使用单目视觉技术。
+
+在本项目中采用了 \href{http://urlc.cn/gWN7Y4}{
+Chu Jiangwei，Ji Lisheng，Guo Lie，Libibing，Wang Rongben} 提出的单目视觉几何模型来探测与目标之间的距离。
+
+$P$ 是在目标对象上的一个点;$d$ 为从光学中心到 $P$ 点的距离。基于上述几何关系，给出以下计算距离 $d$ 的公式（1）。在公式（1）中，$f$ 是相机的焦距; $\partial$ 是相机的倾斜角度;$h$ 是光学中心高度;($X_0$，$Y_0$)是指像平面和光轴的交点;
+（$X$，$Y$）是指在图像平面上的点P的投影。
+
+假设$O_1$($U_0$，$V_0$)是光轴和图像平面的交点的照相机坐标，还假设对应于$x$轴和$y$轴在像平面上一个像素的物理尺寸是$dx$和$dy$。
+然后：
+
+$v$是在相机在$y$轴坐标，可以从目标检测过程中得到。所有其他的参数均是相机的内在参数，可以从相机矩阵检索。
+
+另外OpenCV提供了\href{http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html}{相机标定}功能。校正后将会返回一个500万像素的树莓派相机矩阵。理想的情况是，$a\_x$ 和$a\_y$ 有相同的值。这两个值的方差将导致在图像中的非平方像素。
+
+相机矩阵将返回像素值和$h$值。通过应用公式（3），将会得到实际的物理距离。
+
+\subsubsection*{小车控制单元}
+此项目中使用的小车有一个 开/关 类型控制器。当按下按钮时,相关芯片引脚和地之间的电阻为零。因此,使用 Arduino 电路板用来模拟按钮按下操作。选择四个 Arduino 针脚分别连接控制器四个芯片引脚上,分别对应于正向、 反向、 左和右的动作。一方面 Arduino引脚发送 LOW 信号显示控制器芯片的接地引脚;另一方面发送 HIGH 信号表明芯片引脚之间的电阻和地面保持不变。Arduino 通过 USB 连接到计算机。计算机使用串口向 Arduino 发送命令,然后 Arduino 读取命令,写出 LOW 或 HIGH 信号,模拟通过按下按钮来驾驶小车。
+
+
+
+
+\end{document}

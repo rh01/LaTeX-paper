@@ -1,0 +1,62 @@
+\documentclass[UTF8,nofonts,a4paper]{ctexart}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{xcolor,graphicx}
+\usepackage{tikz}
+\usepackage{epigraph}
+\usepackage{lipsum}
+
+%\setCJKmainfont[ItalicFont={AR PL UKai CN}]{AR PL UMing CN} %设置中文默认字体
+%\setCJKsansfont{WenQuanYi Zen Hei} %设置文泉驿正黑字体作为中文无衬线字体
+%\setCJKmonofont{WenQuanYi Zen Hei Mono} %设置文泉驿等宽正黑字体作为中文打字机字体
+\setCJKmainfont{SimSun}
+% 设定页边距
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{ geometry}
+
+\usepackage{indentfirst}
+\usepackage{graphicx}
+%设置首行缩进
+\usepackage{indentfirst}
+\setlength{\parindent}{2em }
+\setlength{\parskip}{0pt }
+%段前段后距离设置
+\CTEXsetup[beforeskip=0ex]{paragraph}
+%页眉和页脚
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+\pagenumbering{Roman}
+
+
+\renewcommand{\headrulewidth}{0pt}
+\begin{document}
+
+
+%设置中文章节的格式的字体
+%\CTEXsetup[format={\centering\zihao{3}}]{chapter}
+\CTEXsetup[format={\bf\zihao{3}\centering}]{section}
+\CTEXsetup[format={\bf\zihao{4}}]{subsection}
+
+%设置中文摘要
+\CTEXoptions[abstractname={\zihao{3}研究动机说明}]
+
+\section*{研究动机说明}
+\zihao{-4}
+尊敬的LAMDA实验室老师你好，我是来自安阳工学院的申恒恒，当你收到这份报告的时候应该接近提交时间的尾声了，很抱歉，刚刚在网络上知道LAMDA实验室提前提交资料审核，言归正题，下面会阐述我的研究动机。\\
+\indent 我与机器学习的缘分起源于我在去年参加了中国科学院主办的”2015年第一届人工智能大会“，当时偶然的机会获得了门票，自己动身去北京参会，当时对于一个大二的我来说，完全是一个陌生的词汇，然而当在持续两天的会议中，我收获颇丰，可以这么说，培养了之后我学习人工智能以及机器学习的信心和做机器学习的动力，当时刚好参加数学建模大赛，在回到学校的期间，就开始着手机器学习系统的学习，当时我已经是一个MOOCer，但是对机器学习的认识不足，Andrew Ng的课程往往敬而远之，但是经历过人工智能大会中专家们的洗礼后，我开始了机器学习之路，并在该道路上越走信心越大和并且对智慧世界的认识越来越深，或许像所有像我这样的人来说，开始机器学习之路都是从吴恩达教授的机器学习课程开始的，当我一个暑假都在积极的去学这门课，加上当时数学建模的Matlab编程使得我如虎添翼，在此基础上，完成了所有的编程任务，但是当结课之后，我发现有很多理论性的知识只是停留在浅层，所以我就开始寻找一个机器学习的一个方向来对机器学习更底层的认识，所以我有大量的充电，买了李航老师的《统计机器学习》，周志华老师的《机器学习》，《PRML》，《神经网络与机器学习》等书来不断的学习，但随着枯燥的理论知识的学习，慢慢的浮躁起来，想加强实践能力的学习来做出智能产品，后来我有在Coursera上注册了台湾大学的林志轩老师的《机器学习技法》，华盛顿大学的机器学习专项课程等，另外也有在网络上学习上海交大张志华教授的机器学习公开课程等，其中某些课程里面包含了很多的动手项目，所以在动手的基础上又对机器学习有了数据操作上的认识，而后在今年的全国机械创新大赛和我们学校的机械学院进行了学科之间的交流和合作，在此期间我通过PCA+NN对纸币数据进行建模，进而对纸币分类，但是由于技术上的原因，模型的识别率并不高，因此我对此感到理论方面和模型调参方面的欠缺，所以我在此一直不断的充电学习，学习国外的Image and Video Processing和台湾高校方面的信号处理等课程，在学习期间，我对Computer Vision极为感兴趣，也因此会成为我在研时的研究方向，因为我深深的对该领域的发展和技术感到极大的兴趣，因为我认为视觉系统对未来智慧型世界的影响是非常大的，然后实现该手段的主要方法就是对机器学习和模式识别等领域的不断的挖掘和研究，因为学术领域往往是人工智能的先驱者和创造者，我对该领域的研究极为感兴趣，加上自己在本科阶段的学习不足或指导不足，导致学习效率低效，所以我想通过研究生阶段的学习使自己不断地对充实自己，并在机器学习的路上越走也扎实。\\
+\indent 或许一个普通二本学生的资历可能对LAMDA实验室的招生有些牵强，但我还是想尝试一下，我想申请黎铭教授、周志华教授、或俞扬教授的研究生，且服从分配，谢谢。也许上面介绍的有些略过简略，有什么问题还希望老师们能提出来，谢谢.\\
+
+
+
+
+
+\end{document}
