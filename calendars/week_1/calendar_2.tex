@@ -1,0 +1,168 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Weekly Timetable Calendar
+% LaTeX Template
+% Version 1.1 (4/6/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original calendar style author:
+% Evan Sultanik (http://www.sultanik.com/LaTeX_calendar_style)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+% Important note:
+% This template requires the calendar.sty file to be in the same directory as the
+% .tex file. The calendar.sty file provides the necessary structure to create the
+% calendar.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[landscape,a4paper]{article}
+
+\usepackage{calendar} % Use the calendar.sty style
+\usepackage{setspace}
+
+\usepackage[landscape,margin=1.0in]{geometry}
+\usepackage[encapsulated]{CJK}
+\begin{document}
+
+\pagestyle{empty} % Removes the page number from the bottom of the page
+
+\noindent
+
+\StartingDayNumber=1 % Calendar starting day, default of 1 means Sunday, 2 for Monday, etc
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+\begin{CJK}{UTF8}{gkai}
+\begin{center}
+\textsc{\LARGE Learning-Assignment\large s}\\ % Title text
+\begin{spacing}{1.5}
+\end{spacing}
+\textsc{\large 第一周任务安排} % Subtitle text
+\end{center}
+\end{CJK}
+%----------------------------------------------------------------------------------------
+\begin{CJK}{UTF8}{gbsn}
+\begin{calendar}{\hsize}
+
+%----------------------------------------------------------------------------------------
+%	FIRST DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{\textbf{8am-10am} \daysep CUTU-数理统计学\\[3pt]
+\textbf{10am-12pm} \daysep 高等数学-多元函数微分学 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04）\\[3pt]
+\textbf{2:10pm- 3:10pm\\3:20- 4:20pm}\daysep 多元函数微分学-做题巩固 \\[3pt]
+\textbf{4:30pm- 5:30pm} \daysep 多元函数微分学总结 \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8:20pm- 10:20pm} \daysep EM-algorithm{\&}PCA
+} % By default all daily events are centered in the box, in order to bring them up use \vspace{2cm} after the event text; you may need to change the 2cm
+
+%----------------------------------------------------------------------------------------
+%	SECOND DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{
+\textbf{8am- 10am} \daysep 高等数学-二重积分 \\[3pt]
+\textbf{10am- 12pm} \daysep CUTU-数理统计学 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+\textbf{2:10pm- 3:10pm} \daysep 多元函数微分学-做题巩固 \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+\textbf{3:20pm- 5:20pm} \daysep 一元函数积分学-复习 \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Classification Course
+} 
+
+%----------------------------------------------------------------------------------------
+%	THIRD DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{ % Tuesday
+\textbf{8am- 10am} \daysep 高等数学-二重积分 \\[3pt]
+\textbf{10am- 12pm} \daysep CUTU-数理统计学 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+\textbf{2:10pm- 3:10pm} \daysep 多元函数微分学-做题巩固 \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+\textbf{3:20pm- 5:20pm} \daysep 一元函数积分学-复习 \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Assignments{\&}Quiz-IIPP
+} 
+
+%----------------------------------------------------------------------------------------
+%	FOURTH DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{ % Wednesday
+\textbf{8am- 10am} \daysep 高等数学-微分方程 \\[3pt]
+\textbf{10am- 12pm} \daysep CUTU-数理统计学 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+\textbf{2:10pm- 3:10pm\\3:20pm- 4:20pm} \daysep 二重积分-做题巩固 \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+%\textbf{3:20pm- 5:20pm} \daysep 一元函数积分学-复习 \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Classification-Assignments{\&}Quizs
+} 
+
+%----------------------------------------------------------------------------------------
+%	FIFTH DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{ % Thursday
+\textbf{8am- 10am} \daysep 高等数学-微分方程 \\[3pt]
+\textbf{10am- 12pm} \daysep CUTU-数理统计学 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+\textbf{2:10pm- 3:10pm\\3:20pm- 4:20pm} \daysep 二重积分-做题巩固 \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Images{\&}Videos Segmentation
+} 
+
+%----------------------------------------------------------------------------------------
+%	SIXTH DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{ % Friday
+\textbf{8am- 10am} \daysep 二重积分总结 \\[3pt]
+\textbf{10am- 12pm} \daysep 单变量微积分复习 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+\textbf{2pm- 5pm} \daysep 微分方程解法、题型总结 \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Classification Conclusion By {\LaTeX{}} 
+}
+%----------------------------------------------------------------------------------------
+%	SEVENTH DAY
+%----------------------------------------------------------------------------------------
+
+\day{}{
+\textbf{8am- 12am} \daysep IIPP(Quizs) for Week5 \\[3pt]
+\textbf{1pm- 2pm} \daysep 考研英语精读（94-04） \\[3pt]
+%\textbf{1pm-2pm} \daysep No Lecture \\[3pt]
+\textbf{2pm- 5pm} \daysep Classfication \\[3pt]
+\textbf{7pm- 8pm} \daysep 英语单词记忆 \\[3pt]
+\textbf{8pm- 10pm} \daysep Make Plan For Next Week
+ % Saturday
+}
+%----------------------------------------------------------------------------------------
+ 
+\finishCalendar
+\end{calendar}
+\\
+
+\begin{enumerate}
+
+\item All assginments must be accomplished at last.
+\item Seize the day,seize the day,Do it now right away.
+\item The time table made by 申恒恒 using \LaTeX{}
+
+\end{enumerate}
+\end{CJK}
+\end{document}
