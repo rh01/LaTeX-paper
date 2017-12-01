@@ -1,0 +1,333 @@
+\documentclass[hyperref,]{ctexart}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[left=2.5cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\usepackage[usenames,dvipsnames]{color}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={申恒恒},
+            pdftitle={单向散列函数的设计和应用},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+
+\title{单向散列函数的设计和应用}
+\author{申恒恒}
+\date{}
+
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+\begin{document}
+\maketitle
+
+\section{引言}
+
+单向散列函数又称为消息摘要函数(message)、哈希函数或者杂凑函数，下面会提到哈希函数，他们表示的是同一种东西.单向散列函数的应用极为常见，数字签名\footnote{数字签名耗时较长，因此不可能对整个消息内容直接施加数字签名而是先通过单向散列函数计算出散
+  列值再对散列值添加数字签名}, MD5加密\footnote{现已经攻破}，
+SHA-1\footnote{2005年由山东大学王小云教授的团队攻破}
+等等都能看到应用单向散列函数的影子。单向散列函数生成的散列值又称为文件的``指纹''。参考
+
+假设一个网站存有很大的视频文件\emph{F}，任何人都可以下载。下载该文件的浏览器需要确保该文件内容是和网站上存储的视频文件\emph{F}是一样的，没有被篡改过。那么常见解决该问题的一种方法是事先网站使用单向散列函数计算文件\emph{F}的散列值，然后通过某些验证信道将所得到的散列值\emph{h
+= H(F)}分发给用户（也可以称为\emph{F}
+的数字签名）。浏览器会下载整个文件后检查\emph{H(F)}是否等于真正的散列值h，如果相等，视频是没有发生改动。否则，这意味着整个文件被篡改过.
+在现实生活中存在很多像这种的例子。因此在这里将利用密码需所学到的知识，实现对文件Hash
+值的计算，借以验证文件是否被篡改过。案例参考
+
+\section{设计要求}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  编写代码来计算的给定文件\emph{F} 的哈希\(H_0\)
+\item
+  根据现实生活的例子，单向散列函数必须满足以下条件:
+
+  \begin{enumerate}
+  \def\labelenumii{\arabic{enumii}.}
+  \tightlist
+  \item
+    根据任意大小的文件计算出固定长度的\emph{hash} 值
+  \item
+    能够快速计算 \emph{hash} 值
+  \item
+    文件不同，hash 值也不同
+  \end{enumerate}
+\end{enumerate}
+
+\section{详细设计}
+
+\subsection{整体流程}
+
+SHA256 是一种能够根据上限为\(2^{64}\) 比特的消息计算出256 比特的散
+列值的单向散列函数.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  填充
+\end{enumerate}
+
+对消息4 进行填充处理，使其长度为512 比特的整数倍，这里的512
+比特为一个输入分组
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  计算\(W_0\) \textasciitilde{} \(W_{63}\)
+\end{enumerate}
+
+根据输入分组的521 比特计算出64 个32 比特的值(\(W_0\) \textasciitilde{}
+\(W_{63}\))
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  分组处理
+\end{enumerate}
+
+对输入分组一次进行64 个步骤的处理（循环次数），让8 个32 比特的值(\(A\)
+\textasciitilde{} \(H\)) 作为SHA256
+的内部状态，对所有分组都要进行这一操作。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  单步处理
+\end{enumerate}
+
+分组处理是由64 个步骤的处理组成的，其中每个步骤都是基于\(W_0~W_{63}\)
+使内部状态进行复杂变化的处理.
+
+\subsection{详细流程}
+
+\hypertarget{sha256padding}{%
+\subsubsection{SHA256：填充(padding)}\label{sha256padding}}
+
+输入SHA256 的消息\footnote{可以理解为文件的数据块}
+长度应该大于0比特小于\(2^{64}\)比特。在SHA256中，为了便于后续的处理，在一开始会进行填充操作，这里的填充是指在消息的末尾添加多余的数据，使消息长度成为512
+比特的整数倍.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  添加1
+\item
+  添加k bit 的0，使得\(l+1+k \equiv 448mod512\)。保留最后一个分组64bit
+\item
+  添加消息长度，最后一个保留的分组填充原始消息的长度
+\end{enumerate}
+
+\hypertarget{sha256w0w63}{%
+\subsubsection{SHA256：计算W0\textasciitilde{}W63}\label{sha256w0w63}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  将输入分组的512 比特分为32 比特×16 组，并将它们命为\(W_0\)
+  \textasciitilde{} \(W_{15}\)
+\item
+  余下的48 组用下面的公式表示:
+\end{enumerate}
+
+\(W_i = \sigma_1(W_i - 2) +W_i - 7 + \sigma_0(W_i - 15) +W_i - 16, 17 \leq i \leq 64\)
+
+\hypertarget{sha256hash-}{%
+\subsubsection{SHA256：Hash 计算算法}\label{sha256hash-}}
+
+\begin{verbatim}
+For i = 1 to N
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  计算\(W_i\)\\
+  \[W_i = \begin{cases} W_i, & \text {if 0 $\leq$ i $\leq$ 15} \\ \sigma_1(W_i - 2) +W_i - 7 + \sigma_0(W_i - 15) +W_i - 16,  & \text {if 17 $\leq$ i $\leq$ 64} \end{cases}\]
+\item
+  令
+  \[(a, b, c, d, e, f, g, h) = (H(t - 1)_1,H(t - 1)2,H(t - 1)_3,H(t - 1)_4,\]
+  \[H(t - 1)_5,H(t - 1)_6,H(t - 1)_7,H(t - 1)_8)\]
+\item
+  做64 次循环 \[T1 = h + \sum_ {0} (e) + Ch(e, f, g) + K_i +W_i\]
+  \[T_2 = \sum_ {0} (a) +Maj(a, b, c)\] \[h = g\] \[g = f\] \[f = e\]
+  \[e = d + T_1\] \[d = c\] \[c = b\] \[b = a\] \[a = T_1 + T_2\]
+\item
+  重新计算 \[H(t)_1 = H(t-1)_1 + a\] \[H(t)_2 = H(t-1)_2 + b\]
+  \[H(t)_3 = H(t-1)_3 + c\] \[H(t)_4 = H(t-1)_4 + d\]
+  \[H(t)_5 = H(t-1)_5 + e\] \[H(t)_6 = H(t-1)_6 + f\]
+  \[H(t)_7 = H(t-1)_7 + g\] \[H(t)_8 = H(t-1)_8 + h\]
+\end{enumerate}
+
+\begin{verbatim}
+End for
+\end{verbatim}
+
+\section{具体实现}
+
+在这个项目中，将使用SHA256 作为哈希函数。SHA256
+的实施方案使用现有的密码库如PyCrypto\footnote{在这里将使用python
+  实现，项目地址：\url{https://pypi.python.org/pypi/pycrypto}}
+（Python）的，Crypto（C++）等。
+
+\subsection{导入必要的模块}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ sys}
+\ImportTok{import}\NormalTok{ os}
+\ImportTok{from}\NormalTok{ Crypto.Hash }\ImportTok{import}\NormalTok{ SHA256}
+\end{Highlighting}
+\end{Shaded}
+
+在这里主要用到了Crypto.Hash 模块的SHA256
+类，通过调用类接口，实现哈希算法的自定制.
+
+\subsection{完成哈希计算功能}
+
+根据哈希计算算法，可以利用PyCrypto 库结合SHA256 算法设计，设计如下：
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  首先通过读取视频文件，然后利用调用系统函数getsize()获得文件的总大小，然后通过进行分组处理
+\item
+  接着利用前面的哈希算法处理，然后生成8 个32bit 的缓冲区\footnote{也可以叫做分组}。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ calculate_hash(file_path, block_size):}
+    \CommentTok{# Get file size in bytes}
+\NormalTok{    file_size }\OperatorTok{=}\NormalTok{ os.path.getsize(file_path)}
+    \CommentTok{# The last block size}
+\NormalTok{    last_block_size }\OperatorTok{=}\NormalTok{ file_size }\OperatorTok{%}\NormalTok{ block_size}
+    
+    
+    \BuiltInTok{print} \StringTok{"Opening file:"}\NormalTok{,file_path, }\StringTok{" ; "}\NormalTok{,file_size,}\StringTok{"bytes; "}
+\NormalTok{    fp }\OperatorTok{=} \BuiltInTok{open}\NormalTok{(file_path, }\StringTok{'rb'}\NormalTok{)}
+\NormalTok{    last_hash }\OperatorTok{=} \StringTok{''}
+    \CommentTok{# read the chuncks}
+    \ControlFlowTok{for}\NormalTok{ chunk }\KeywordTok{in}\NormalTok{ read_reversed_chunks(fp, file_size, last_block_size, block_size):}
+        \CommentTok{# SHA-256 obj}
+\NormalTok{        sha256 }\OperatorTok{=}\NormalTok{ SHA256.new()}
+\NormalTok{        sha256.update(chunk)}
+        \ControlFlowTok{if}\NormalTok{(last_hash):}
+\NormalTok{            sha256.update(last_hash)}
+\NormalTok{        last_hash }\OperatorTok{=}\NormalTok{ sha256.digest()}
+\NormalTok{    fp.close()}
+    \CommentTok{# Return the last hash (h0)}
+    \ControlFlowTok{return}\NormalTok{ last_hash}
+\end{Highlighting}
+\end{Shaded}
+
+\section{测试}
+
+启动程序，读取目标文件的视频文件，然后计算待确认视频的hash值，然后将结果对比，确认视频文件是否被修改过.
+
+\begin{figure}
+\centering
+\includegraphics{1.png}
+\caption{测试结果为两者的哈希值一样，未被篡改过}
+\end{figure}
+
+\end{document}
